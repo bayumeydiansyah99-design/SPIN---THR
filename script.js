@@ -129,3 +129,71 @@ takbir.play();
 function closePopup(){
 document.getElementById("popup").style.display="none";
 }
+/* ===== SWIPE SPIN ===== */
+
+let startX = 0;
+
+canvas.addEventListener("touchstart",(e)=>{
+startX = e.touches[0].clientX;
+});
+
+canvas.addEventListener("touchend",(e)=>{
+
+if(spinning) return;
+
+const endX = e.changedTouches[0].clientX;
+
+const diff = Math.abs(endX - startX);
+
+/* jika geser cukup jauh baru spin */
+
+if(diff > 40){
+startSpin();
+}
+
+});
+
+/* fungsi spin dipanggil dari swipe */
+
+function startSpin(){
+
+if(spinning) return;
+
+spinning=true;
+
+let speed=80;
+let totalSpin=0;
+
+const targetList = [1,2,9,10];
+const target = targetList[Math.floor(Math.random()*targetList.length)];
+
+const interval=setInterval(()=>{
+
+drawWheel(currentIndex);
+
+tick.currentTime = 0;
+tick.play();
+
+currentIndex++;
+
+if(currentIndex>=segments.length){
+currentIndex=0;
+}
+
+totalSpin++;
+
+if(totalSpin>50 && currentIndex===target){
+
+clearInterval(interval);
+
+drawWheel(target);
+
+showResult(target);
+
+spinning=false;
+
+}
+
+},speed);
+
+}
