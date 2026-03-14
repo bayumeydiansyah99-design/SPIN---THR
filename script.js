@@ -23,9 +23,7 @@ const colors = [
 "#8bc34a"
 ];
 
-let angle = 0;
-
-/* ===== GAMBAR RODA ===== */
+let currentRotation = 0;
 
 function drawWheel(){
 
@@ -34,18 +32,17 @@ const arc = Math.PI * 2 / segments.length;
 for(let i=0;i<segments.length;i++){
 
 ctx.beginPath();
-ctx.fillStyle = colors[i % colors.length];
+ctx.fillStyle = colors[i];
 ctx.moveTo(150,150);
 ctx.arc(150,150,150,arc*i,arc*(i+1));
 ctx.fill();
 
-ctx.fillStyle="white";
-ctx.font="bold 18px sans-serif";
-
 ctx.save();
-
 ctx.translate(150,150);
 ctx.rotate(arc*i + arc/2);
+
+ctx.fillStyle="white";
+ctx.font="bold 18px sans-serif";
 ctx.fillText(segments[i],60,10);
 
 ctx.restore();
@@ -56,47 +53,35 @@ ctx.restore();
 
 drawWheel();
 
-/* ===== SPIN ===== */
+document.getElementById("spin").onclick=function(){
 
-document.getElementById("spin").onclick = function(){
+/* pilih hadiah kecil */
+const hadiahIndex = Math.random() < 0.7 ? 1 : 2;
 
-// pilih hadiah kecil saja
-const hadiah = Math.random() < 0.7 ? 1 : 2;
-// index 1 = 2rb
-// index 2 = 5rb
+const arc = 360 / segments.length;
 
-const arcDeg = 360 / segments.length;
+/* hitung posisi berhenti */
+const stopAngle = 360 - (hadiahIndex * arc) - (arc/2);
 
-// hitung sudut agar berhenti tepat di segment
-const stopAngle = 360 - (hadiah * arcDeg) - (arcDeg/2);
+/* putaran tambahan */
+const spin = 360 * 5 + stopAngle;
 
-// putaran tambahan supaya terlihat random
-const extraSpin = 360 * 5;
+currentRotation = spin;
 
-angle = extraSpin + stopAngle;
-
-canvas.style.transition="transform 4s cubic-bezier(.17,.67,.83,.67)";
-canvas.style.transform=`rotate(${angle}deg)`;
+canvas.style.transition="transform 4s ease-out";
+canvas.style.transform=`rotate(${spin}deg)`;
 
 setTimeout(()=>{
-showResult(hadiah);
+showResult(hadiahIndex);
 },4000);
 
 }
 
-/* ===== HASIL ===== */
-
 function showResult(index){
 
-let result;
-
-if(index === 1){
-result = "Rp2.000";
-}else{
-result = "Rp5.000";
-}
+let hadiah = index === 1 ? "Rp2.000" : "Rp5.000";
 
 document.getElementById("result").innerHTML =
-"🎉 Kamu dapat THR " + result;
+"🎉 Kamu dapat THR " + hadiah;
 
 }
