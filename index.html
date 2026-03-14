@@ -1,37 +1,329 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Spin Amplop THR</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
 
+body{
+margin:0;
+font-family:Arial;
+background:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+.container{
+position:relative;
+}
+
+#wheel{
+
+width:340px;
+height:340px;
+
+border-radius:50%;
+
+background:
+conic-gradient(
+#ff3b3b 0deg 45deg,
+#ff9f00 45deg 90deg,
+#ff3b3b 90deg 135deg,
+#ff9f00 135deg 180deg,
+#ff3b3b 180deg 225deg,
+#ff9f00 225deg 270deg,
+#ff3b3b 270deg 315deg,
+#ff9f00 315deg 360deg
+);
+
+border:10px solid black;
+
+transition:transform 4s cubic-bezier(.17,.67,.3,1);
+
+transform-style:preserve-3d;
+
+box-shadow:
+0 15px 30px rgba(0,0,0,0.2),
+inset 0 0 20px rgba(0,0,0,0.25);
+
+}
+
+.pointer{
+
+position:absolute;
+
+top:-25px;
+left:50%;
+
+transform:translateX(-50%);
+
+width:0;
+height:0;
+
+border-left:22px solid transparent;
+border-right:22px solid transparent;
+
+border-bottom:40px solid black;
+
+z-index:10;
+
+}
+
+.labels{
+
+position:absolute;
+width:340px;
+height:340px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+pointer-events:none;
+
+}
+
+.label{
+position:absolute;
+font-weight:bold;
+font-size:18px;
+color:white;
+}
+
+button{
+
+margin-top:30px;
+
+padding:15px 45px;
+
+font-size:20px;
+
+background:#22c55e;
+
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+#result{
+
+margin-top:20px;
+
+font-size:24px;
+
+font-weight:bold;
+
+}
+
+/* confetti */
+
+.confetti{
+
+position:fixed;
+
+width:8px;
+height:8px;
+
+top:-10px;
+
+animation:confettiFall 3s linear forwards;
+
+}
+
+@keyframes confettiFall{
+
+0%{transform:translateY(0);}
+100%{transform:translateY(100vh);opacity:0;}
+
+}
+
+/* uang jatuh */
+
+.money{
+
+position:fixed;
+
+font-size:28px;
+
+top:-20px;
+
+animation:moneyFall 3s linear forwards;
+
+}
+
+@keyframes moneyFall{
+
+0%{transform:translateY(0);}
+100%{transform:translateY(100vh);opacity:0;}
+
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="app">
-
 <h1>🎁 Spin Amplop THR</h1>
 
-<div class="wheel-container">
+<div class="container">
 
 <div class="pointer"></div>
 
-<canvas id="wheel"></canvas>
+<div id="wheel"></div>
+
+<div class="labels">
+
+<div class="label" style="top:15px">100rb</div>
+<div class="label" style="top:80px; right:20px">50rb</div>
+<div class="label" style="right:20px; bottom:80px">20rb</div>
+<div class="label" style="bottom:15px">10rb</div>
+<div class="label" style="left:20px; bottom:80px">5rb</div>
+<div class="label" style="left:20px; top:80px">Zonk</div>
 
 </div>
 
-<button id="spinBtn">SPIN</button>
+</div>
+
+<button onclick="spin()">SPIN</button>
 
 <div id="result"></div>
 
-</div>
+<audio id="tickSound">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c6c3a8d2c.mp3">
+</audio>
 
-<script src="script.js"></script>
+<script>
+
+const prizes=[
+"100rb",
+"50rb",
+"20rb",
+"10rb",
+"5rb",
+"Zonk",
+"20rb",
+"10rb"
+]
+
+const allowed=[
+"20rb",
+"10rb",
+"5rb",
+"Zonk"
+]
+
+let rotation=0
+
+function spin(){
+
+const wheel=document.getElementById("wheel")
+const result=allowed[Math.floor(Math.random()*allowed.length)]
+
+let index=prizes.indexOf(result)
+
+const slice=360/prizes.length
+
+/* efek hampir dapat 100rb */
+
+let nearJackpot=Math.random()<0.6
+
+if(nearJackpot){
+index=0
+}
+
+rotation += (360*5)+(index*slice)+(slice/2)
+
+wheel.style.transform="rotate("+rotation+"deg)"
+
+/* suara klik */
+
+const tick=document.getElementById("tickSound")
+
+let tickInterval=setInterval(()=>{
+tick.currentTime=0
+tick.play()
+},120)
+
+setTimeout(()=>{
+clearInterval(tickInterval)
+},4000)
+
+setTimeout(()=>{
+
+if(nearJackpot){
+
+rotation+=25
+wheel.style.transform="rotate("+rotation+"deg)"
+
+}
+
+document.getElementById("result").innerText=
+"Kamu dapat: "+result
+
+if(result!=="Zonk"){
+confetti()
+moneyRain()
+}
+
+},4000)
+
+}
+
+function confetti(){
+
+for(let i=0;i<40;i++){
+
+let c=document.createElement("div")
+
+c.className="confetti"
+
+c.style.left=Math.random()*100+"vw"
+
+c.style.background="hsl("+Math.random()*360+",100%,50%)"
+
+document.body.appendChild(c)
+
+setTimeout(()=>c.remove(),3000)
+
+}
+
+}
+
+function moneyRain(){
+
+for(let i=0;i<20;i++){
+
+let m=document.createElement("div")
+
+m.className="money"
+
+m.innerHTML="💸"
+
+m.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(m)
+
+setTimeout(()=>m.remove(),3000)
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
