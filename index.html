@@ -1,360 +1,37 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Spin Amplop THR</title>
 
-<style>
+<link rel="stylesheet" href="style.css">
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
-
-body{
-background:white;
-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-}
-
-h1{
-font-size:28px;
-margin-bottom:20px;
-color:#111;
-}
-
-.container{
-position:relative;
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-
-#wheel{
-
-width:360px;
-height:360px;
-border-radius:50%;
-border:12px solid #111;
-position:relative;
-overflow:hidden;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.2),
-inset 0 0 20px rgba(0,0,0,0.2);
-
-transition:transform 4s cubic-bezier(.17,.67,.3,1);
-}
-
-.segment{
-
-position:absolute;
-width:50%;
-height:50%;
-transform-origin:100% 100%;
-display:flex;
-justify-content:flex-end;
-align-items:flex-end;
-padding:14px;
-font-weight:bold;
-color:white;
-}
-
-.segment span{
-transform:rotate(22deg);
-font-size:18px;
-}
-
-.pointer{
-
-position:absolute;
-top:-18px;
-
-width:0;
-height:0;
-
-border-left:18px solid transparent;
-border-right:18px solid transparent;
-border-bottom:28px solid black;
-
-}
-
-button{
-
-margin-top:30px;
-
-padding:15px 45px;
-
-font-size:20px;
-
-background:#22c55e;
-
-color:white;
-
-border:none;
-
-border-radius:10px;
-
-cursor:pointer;
-
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
-
-}
-
-button:active{
-
-transform:scale(0.95);
-
-}
-
-#result{
-
-margin-top:25px;
-
-font-size:24px;
-
-font-weight:bold;
-
-color:#111;
-
-}
-
-.confetti{
-
-position:fixed;
-
-width:10px;
-
-height:10px;
-
-animation:fall 3s linear forwards;
-
-}
-
-@keyframes fall{
-
-0%{
-
-transform:translateY(-50px);
-
-opacity:1;
-
-}
-
-100%{
-
-transform:translateY(100vh);
-
-opacity:0;
-
-}
-
-}
-
-.money{
-
-position:fixed;
-
-font-size:28px;
-
-animation:moneyFall 3s linear forwards;
-
-}
-
-@keyframes moneyFall{
-
-0%{
-
-transform:translateY(-50px);
-
-}
-
-100%{
-
-transform:translateY(100vh);
-
-opacity:0;
-
-}
-
-}
-
-</style>
 </head>
 
 <body>
 
+<div class="app">
+
 <h1>🎁 Spin Amplop THR</h1>
 
-<div class="container">
+<div class="wheel-container">
 
 <div class="pointer"></div>
 
-<div id="wheel"></div>
+<canvas id="wheel"></canvas>
 
-<button onclick="spin()">SPIN</button>
+</div>
+
+<button id="spinBtn">SPIN</button>
 
 <div id="result"></div>
 
 </div>
 
-<audio id="spinSound" src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3"></audio>
-
-<script>
-
-const prizes=[
-"100rb",
-"50rb",
-"20rb",
-"10rb",
-"5rb",
-"Zonk",
-"20rb",
-"10rb"
-]
-
-const allowed=[
-"20rb",
-"10rb",
-"5rb",
-"Zonk"
-]
-
-const wheel=document.getElementById("wheel")
-
-prizes.forEach((p,i)=>{
-
-const seg=document.createElement("div")
-
-seg.className="segment"
-
-seg.style.transform=`rotate(${i*45}deg) skewY(-45deg)`
-
-seg.style.background=i%2?"#ff7a00":"#ff2a2a"
-
-const text=document.createElement("span")
-
-text.innerText=p
-
-seg.appendChild(text)
-
-wheel.appendChild(seg)
-
-})
-
-let deg=0
-
-function spin(){
-
-document.getElementById("spinSound").play()
-
-const result=allowed[Math.floor(Math.random()*allowed.length)]
-
-let index=prizes.indexOf(result)
-
-const jackpotIndex=prizes.indexOf("100rb")
-
-let nearJackpot=Math.random()<0.6
-
-if(nearJackpot){
-
-index=jackpotIndex
-
-}
-
-const rotateTo=(360*6)+(index*45)
-
-deg+=rotateTo
-
-wheel.style.transform=`rotate(${deg}deg)`
-
-setTimeout(()=>{
-
-if(nearJackpot){
-
-deg+=25
-
-wheel.style.transform=`rotate(${deg}deg)`
-
-setTimeout(()=>{
-
-showResult(result)
-
-},700)
-
-}
-
-else{
-
-showResult(result)
-
-}
-
-},4000)
-
-}
-
-function showResult(result){
-
-document.getElementById("result").innerText="Kamu dapat: "+result
-
-if(result!=="Zonk"){
-
-confetti()
-
-money()
-
-}
-
-}
-
-function confetti(){
-
-for(let i=0;i<60;i++){
-
-let c=document.createElement("div")
-
-c.className="confetti"
-
-c.style.left=Math.random()*100+"vw"
-
-c.style.background=`hsl(${Math.random()*360},100%,50%)`
-
-document.body.appendChild(c)
-
-setTimeout(()=>c.remove(),3000)
-
-}
-
-}
-
-function money(){
-
-for(let i=0;i<20;i++){
-
-let m=document.createElement("div")
-
-m.className="money"
-
-m.innerHTML="💸"
-
-m.style.left=Math.random()*100+"vw"
-
-document.body.appendChild(m)
-
-setTimeout(()=>m.remove(),3000)
-
-}
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
