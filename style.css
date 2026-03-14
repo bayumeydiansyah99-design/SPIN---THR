@@ -1,43 +1,38 @@
-body{
-font-family:sans-serif;
-text-align:center;
-background:linear-gradient(180deg,#0f6b44,#0a4d31);
-color:white;
-margin:0;
+/* BACKGROUND MASJID */
+
+.bg-masjid{
+background:
+linear-gradient(rgba(10,60,40,0.85),rgba(10,60,40,0.85)),
+url("https://images.unsplash.com/photo-1584551246679-0daf3d275d0f");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
 }
 
 /* HEADER */
 
 .header{
 padding:40px 20px 10px;
+text-align:center;
 }
 
 .header h1{
-font-size:40px;
+font-size:42px;
 color:#ffd54f;
 }
 
 .header p{
-opacity:0.9;
 font-size:18px;
+opacity:0.9;
 }
 
 /* RODA */
 
-.wheel-container{
-margin-top:30px;
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-
-/* CANVAS */
-
 canvas{
 background:white;
 border-radius:50%;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
 border:6px solid #ffd54f;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 /* BUTTON */
@@ -51,8 +46,7 @@ border-radius:50px;
 background:linear-gradient(45deg,#ffd54f,#ff9800);
 cursor:pointer;
 font-weight:bold;
-color:#3e2723;
-box-shadow:0 5px 20px rgba(0,0,0,0.4);
+transition:0.2s;
 }
 
 button:hover{
@@ -63,14 +57,14 @@ transform:scale(1.05);
 
 .result-box{
 margin-top:40px;
-background:rgba(255,255,255,0.1);
+background:rgba(255,255,255,0.15);
 padding:20px;
 border-radius:20px;
 width:80%;
 max-width:400px;
 margin-left:auto;
 margin-right:auto;
-backdrop-filter:blur(6px);
+backdrop-filter:blur(8px);
 }
 
 #result{
