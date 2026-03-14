@@ -132,68 +132,31 @@ document.getElementById("popup").style.display="none";
 /* ===== SWIPE SPIN ===== */
 
 let startX = 0;
+let startY = 0;
 
 canvas.addEventListener("touchstart",(e)=>{
+
 startX = e.touches[0].clientX;
+startY = e.touches[0].clientY;
+
 });
 
-canvas.addEventListener("touchend",(e)=>{
+canvas.addEventListener("touchmove",(e)=>{
 
 if(spinning) return;
 
-const endX = e.changedTouches[0].clientX;
+const moveX = e.touches[0].clientX;
+const moveY = e.touches[0].clientY;
 
-const diff = Math.abs(endX - startX);
+const diffX = Math.abs(moveX - startX);
+const diffY = Math.abs(moveY - startY);
 
-/* jika geser cukup jauh baru spin */
+/* jika geser cukup jauh */
 
-if(diff > 40){
+if(diffX > 30 || diffY > 30){
+
 startSpin();
+
 }
 
 });
-
-/* fungsi spin dipanggil dari swipe */
-
-function startSpin(){
-
-if(spinning) return;
-
-spinning=true;
-
-let speed=80;
-let totalSpin=0;
-
-const targetList = [1,2,9,10];
-const target = targetList[Math.floor(Math.random()*targetList.length)];
-
-const interval=setInterval(()=>{
-
-drawWheel(currentIndex);
-
-tick.currentTime = 0;
-tick.play();
-
-currentIndex++;
-
-if(currentIndex>=segments.length){
-currentIndex=0;
-}
-
-totalSpin++;
-
-if(totalSpin>50 && currentIndex===target){
-
-clearInterval(interval);
-
-drawWheel(target);
-
-showResult(target);
-
-spinning=false;
-
-}
-
-},speed);
-
-}
