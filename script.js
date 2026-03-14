@@ -29,6 +29,7 @@ ctx.clearRect(0,0,300,300);
 for(let i=0;i<segments.length;i++){
 
 ctx.beginPath();
+
 ctx.fillStyle = i===highlight ? "#ffffff" : colors[i];
 
 ctx.moveTo(150,150);
@@ -53,7 +54,7 @@ ctx.restore();
 
 drawWheel();
 
-/* ===== SPIN ===== */
+/* SPIN */
 
 document.getElementById("spin").onclick=function(){
 
@@ -64,8 +65,6 @@ spinning=true;
 let speed=80;
 let totalSpin=0;
 
-/* hanya berhenti di hadiah kecil */
-
 const targetList = [1,2,9,10];
 const target = targetList[Math.floor(Math.random()*targetList.length)];
 
@@ -73,7 +72,6 @@ const interval=setInterval(()=>{
 
 drawWheel(currentIndex);
 
-/* suara klik */
 tick.currentTime = 0;
 tick.play();
 
@@ -101,7 +99,7 @@ spinning=false;
 
 }
 
-/* ===== HASIL ===== */
+/* HASIL */
 
 function showResult(index){
 
@@ -116,8 +114,18 @@ hadiah="Rp5.000";
 document.getElementById("result").innerHTML =
 "🎉 Kamu dapat THR "+hadiah;
 
-/* suara takbir */
+document.getElementById("popupText").innerHTML =
+"🎉 Kamu dapat THR "+hadiah;
+
+document.getElementById("popup").style.display="flex";
+
 takbir.currentTime = 0;
 takbir.play();
 
+}
+
+/* TUTUP POPUP */
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
 }
