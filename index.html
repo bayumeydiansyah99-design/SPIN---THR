@@ -13,24 +13,26 @@
 
 <body class="bg-masjid">
 
+<div class="stars"></div>
+
 <div class="header">
-<h1>🌙 THR dari OM BABAY</h1>
-<p>Putar roda untuk mendapatkan THR</p>
+<h1>🌙 Spin THR Lebaran</h1>
+<p>Geser roda untuk mendapatkan THR</p>
 </div>
 
 <div class="wheel-container">
 
+<div class="led-ring"></div>
+
 <canvas id="wheel" width="300" height="300"></canvas>
 
-<button id="spin">PUTAR</button>
+<p class="swipe-text">Geser roda untuk memutar</p>
 
 </div>
 
 <div class="result-box">
 <h2 id="result">Semoga Beruntung 🎉</h2>
 </div>
-
-<!-- AUDIO -->
 
 <audio id="tick">
 <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3">
@@ -40,14 +42,14 @@
 <source src="https://archive.org/download/takbir-idul-fitri/takbir.mp3">
 </audio>
 
-<!-- POPUP HASIL -->
-
 <div id="popup" class="popup">
   <div class="popup-content">
     <h2 id="popupText">🎉 Kamu dapat THR</h2>
     <button onclick="closePopup()">Tutup</button>
   </div>
 </div>
+
+<canvas id="confetti"></canvas>
 
 <script src="script.js"></script>
 
