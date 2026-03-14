@@ -10,7 +10,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial;
+font-family:Arial, sans-serif;
 }
 
 body{
@@ -19,28 +19,28 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background: radial-gradient(circle at top,#0f172a,#020617);
+background:radial-gradient(circle at top,#1e293b,#020617);
 color:white;
 overflow:hidden;
 }
 
 h1{
-font-size:28px;
+font-size:30px;
 margin-bottom:20px;
-letter-spacing:1px;
+text-shadow:0 0 10px gold;
 }
 
 #wheel{
-width:85vw;
+width:90vw;
 max-width:420px;
-height:85vw;
+height:90vw;
 max-height:420px;
 border-radius:50%;
 border:12px solid white;
 position:relative;
 overflow:hidden;
 transition:transform 4s cubic-bezier(.17,.67,.3,1);
-box-shadow:0 0 40px rgba(255,255,255,0.3);
+box-shadow:0 0 40px rgba(255,255,255,0.4);
 }
 
 .segment{
@@ -51,43 +51,70 @@ transform-origin:100% 100%;
 text-align:right;
 padding:12px;
 font-weight:bold;
-font-size:16px;
+font-size:18px;
 }
 
 button{
-
 margin-top:30px;
-padding:15px 45px;
-font-size:20px;
+padding:16px 50px;
+font-size:22px;
 border:none;
-border-radius:12px;
-background:linear-gradient(45deg,#22c55e,#4ade80);
+border-radius:14px;
+background:linear-gradient(45deg,#16a34a,#4ade80);
 color:white;
 cursor:pointer;
-box-shadow:0 0 20px #22c55e;
-transition:0.2s;
-}
-
-button:active{
-transform:scale(0.95);
+box-shadow:0 0 25px #22c55e;
 }
 
 #result{
 margin-top:25px;
-font-size:24px;
+font-size:26px;
 font-weight:bold;
 }
 
 .pointer{
-
 position:absolute;
-top:calc(50% - 230px);
+top:calc(50% - 240px);
 width:0;
 height:0;
-border-left:18px solid transparent;
-border-right:18px solid transparent;
-border-bottom:30px solid white;
+border-left:20px solid transparent;
+border-right:20px solid transparent;
+border-bottom:32px solid white;
+}
 
+.confetti{
+position:absolute;
+width:10px;
+height:10px;
+background:red;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(-50px) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(100vh) rotate(720deg);
+opacity:0;
+}
+}
+
+.money{
+position:absolute;
+font-size:30px;
+animation:moneyFall 3s linear forwards;
+}
+
+@keyframes moneyFall{
+0%{
+transform:translateY(-50px);
+}
+100%{
+transform:translateY(100vh);
+opacity:0;
+}
 }
 
 </style>
@@ -105,6 +132,8 @@ border-bottom:30px solid white;
 
 <div id="result"></div>
 
+<audio id="spinSound" src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3"></audio>
+
 <script>
 
 const prizes=[
@@ -115,11 +144,10 @@ const prizes=[
 "5rb",
 "Zonk",
 "20rb",
-"10rb"
+"500rb"
 ]
 
 const allowed=[
-"20rb",
 "10rb",
 "5rb",
 "Zonk"
@@ -140,6 +168,8 @@ let deg=0
 
 function spin(){
 
+document.getElementById("spinSound").play()
+
 const result=allowed[Math.floor(Math.random()*allowed.length)]
 
 const index=prizes.indexOf(result)
@@ -152,7 +182,53 @@ wheel.style.transform=`rotate(${deg}deg)`
 
 setTimeout(()=>{
 document.getElementById("result").innerText="Kamu dapat: "+result
+
+if(result!=="Zonk"){
+confetti()
+money()
+}
+
 },4000)
+
+}
+
+function confetti(){
+
+for(let i=0;i<60;i++){
+
+let c=document.createElement("div")
+
+c.className="confetti"
+
+c.style.left=Math.random()*100+"vw"
+
+c.style.background=`hsl(${Math.random()*360},100%,50%)`
+
+document.body.appendChild(c)
+
+setTimeout(()=>c.remove(),3000)
+
+}
+
+}
+
+function money(){
+
+for(let i=0;i<15;i++){
+
+let m=document.createElement("div")
+
+m.className="money"
+
+m.innerHTML="💸"
+
+m.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(m)
+
+setTimeout(()=>m.remove(),3000)
+
+}
 
 }
 
