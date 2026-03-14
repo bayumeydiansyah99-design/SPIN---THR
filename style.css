@@ -1,5 +1,3 @@
-/* BODY FULL SCREEN */
-
 body{
 margin:0;
 height:100vh;
@@ -9,7 +7,7 @@ text-align:center;
 color:white;
 }
 
-/* BACKGROUND MASJID FULL SCREEN */
+/* BACKGROUND MASJID */
 
 .bg-masjid{
 position:fixed;
@@ -91,4 +89,55 @@ backdrop-filter:blur(8px);
 font-size:30px;
 color:#fff176;
 font-weight:bold;
+}
+
+/* POPUP */
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+.popup-content{
+background:white;
+color:black;
+padding:30px;
+border-radius:20px;
+text-align:center;
+width:300px;
+animation:popupAnim 0.3s ease;
+}
+
+.popup-content h2{
+margin-bottom:20px;
+font-size:24px;
+}
+
+.popup-content button{
+padding:10px 25px;
+border:none;
+background:#0f6b44;
+color:white;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+}
+
+@keyframes popupAnim{
+from{
+transform:scale(0.5);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
 }
