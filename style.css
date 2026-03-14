@@ -1,38 +1,25 @@
 body{
 margin:0;
-height:100vh;
-overflow:hidden;
 font-family:sans-serif;
 text-align:center;
 color:white;
+height:100vh;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 
-/* BACKGROUND MASJID */
-
 .bg-masjid{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
 background:
 linear-gradient(rgba(10,60,40,0.85),rgba(10,60,40,0.85)),
 url("https://images.unsplash.com/photo-1584551246679-0daf3d275d0f");
-
 background-size:cover;
 background-position:center;
-background-repeat:no-repeat;
-
-z-index:-1;
 }
 
 /* HEADER */
-
-.header{
-padding:40px 20px 10px;
-text-align:center;
-}
 
 .header h1{
 font-size:42px;
@@ -40,11 +27,15 @@ color:#ffd54f;
 }
 
 .header p{
-font-size:18px;
 opacity:0.9;
 }
 
-/* RODA */
+/* WHEEL */
+
+.wheel-container{
+position:relative;
+margin-top:30px;
+}
 
 canvas{
 background:white;
@@ -53,40 +44,33 @@ border:6px solid #ffd54f;
 box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* BUTTON */
+/* POINTER */
 
-button{
-margin-top:25px;
-padding:16px 40px;
-font-size:22px;
-border:none;
-border-radius:50px;
-background:linear-gradient(45deg,#ffd54f,#ff9800);
-cursor:pointer;
-font-weight:bold;
-transition:0.2s;
-}
-
-button:hover{
-transform:scale(1.05);
+.pointer{
+position:absolute;
+top:-20px;
+left:50%;
+transform:translateX(-50%);
+width:0;
+height:0;
+border-left:15px solid transparent;
+border-right:15px solid transparent;
+border-bottom:30px solid white;
+z-index:10;
 }
 
 /* RESULT */
 
 .result-box{
-margin-top:40px;
+margin-top:30px;
 background:rgba(255,255,255,0.15);
 padding:20px;
 border-radius:20px;
-width:80%;
-max-width:400px;
-margin-left:auto;
-margin-right:auto;
-backdrop-filter:blur(8px);
+backdrop-filter:blur(10px);
 }
 
 #result{
-font-size:30px;
+font-size:28px;
 color:#fff176;
 font-weight:bold;
 }
@@ -101,9 +85,8 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.6);
 display:none;
-align-items:center;
 justify-content:center;
-z-index:999;
+align-items:center;
 }
 
 .popup-content{
@@ -112,37 +95,15 @@ color:black;
 padding:30px;
 border-radius:20px;
 text-align:center;
-width:300px;
-animation:popupAnim 0.3s ease;
-}
-
-.popup-content h2{
-margin-bottom:20px;
-font-size:24px;
 }
 
 .popup-content button{
+margin-top:15px;
 padding:10px 25px;
 border:none;
+border-radius:10px;
 background:#0f6b44;
 color:white;
-border-radius:10px;
-cursor:pointer;
 font-size:16px;
-}
-
-@keyframes popupAnim{
-from{
-transform:scale(0.5);
-opacity:0;
-}
-to{
-transform:scale(1);
-opacity:1;
-}
-}
-.swipe-text{
-margin-top:20px;
-font-size:18px;
-opacity:0.9;
+cursor:pointer;
 }
