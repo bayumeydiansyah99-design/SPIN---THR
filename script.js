@@ -1,4 +1,5 @@
 const canvas = document.getElementById("wheel");
+const tick = document.getElementById("tick");
 const ctx = canvas.getContext("2d");
 
 const segments = [
@@ -77,7 +78,8 @@ const target = Math.random()<0.7 ? 1 : 2;
 const interval=setInterval(()=>{
 
 drawWheel(currentIndex);
-
+tick.currentTime = 0;
+tick.play();
 currentIndex++;
 if(currentIndex>=segments.length){
 currentIndex=0;
