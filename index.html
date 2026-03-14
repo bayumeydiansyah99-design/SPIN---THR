@@ -7,6 +7,8 @@
 
 <title>Spin Amplop THR</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Winwheel.js/2.8.0/Winwheel.min.js"></script>
+
 <style>
 
 body{
@@ -24,57 +26,12 @@ h1{
 margin-bottom:20px;
 }
 
-.container{
-position:relative;
-display:flex;
-flex-direction:column;
-align-items:center;
+canvas{
+max-width:400px;
+width:90vw;
 }
-
-#wheel{
-
-width:85vw;
-height:85vw;
-
-max-width:380px;
-max-height:380px;
-
-border-radius:50%;
-
-background:
-conic-gradient(
-#ff9f00 0deg 45deg,
-#ff2d2d 45deg 90deg,
-#ff9f00 90deg 135deg,
-#ff2d2d 135deg 180deg,
-#ff9f00 180deg 225deg,
-#ff2d2d 225deg 270deg,
-#ff9f00 270deg 315deg,
-#ff2d2d 315deg 360deg
-);
-
-border:10px solid black;
-
-position:relative;
-
-transition:transform 4s cubic-bezier(.17,.67,.3,1);
-
-box-shadow:
-0 20px 40px rgba(0,0,0,0.2),
-inset 0 0 25px rgba(0,0,0,0.3);
-
-}
-
-/* pointer panah ke bawah */
 
 .pointer{
-
-position:absolute;
-
-top:-35px;
-left:50%;
-
-transform:translateX(-50%);
 
 width:0;
 height:0;
@@ -82,47 +39,15 @@ height:0;
 border-left:25px solid transparent;
 border-right:25px solid transparent;
 
-border-bottom:45px solid black;
+border-bottom:40px solid black;
 
-z-index:10;
-
-}
-
-/* label hadiah */
-
-.label{
-
-position:absolute;
-
-left:50%;
-top:50%;
-
-color:white;
-
-font-weight:bold;
-
-font-size:18px;
-
-transform-origin:center;
+margin-bottom:-10px;
 
 }
-
-/* posisi label */
-
-.l1{transform:rotate(0deg) translate(0,-140px) rotate(0deg);}
-.l2{transform:rotate(45deg) translate(0,-140px) rotate(-45deg);}
-.l3{transform:rotate(90deg) translate(0,-140px) rotate(-90deg);}
-.l4{transform:rotate(135deg) translate(0,-140px) rotate(-135deg);}
-.l5{transform:rotate(180deg) translate(0,-140px) rotate(-180deg);}
-.l6{transform:rotate(225deg) translate(0,-140px) rotate(-225deg);}
-.l7{transform:rotate(270deg) translate(0,-140px) rotate(-270deg);}
-.l8{transform:rotate(315deg) translate(0,-140px) rotate(-315deg);}
-
-/* tombol */
 
 button{
 
-margin-top:25px;
+margin-top:20px;
 
 padding:15px 45px;
 
@@ -140,8 +65,6 @@ cursor:pointer;
 
 }
 
-/* hasil */
-
 #result{
 
 margin-top:20px;
@@ -152,80 +75,6 @@ font-weight:bold;
 
 }
 
-/* confetti */
-
-.confetti{
-
-position:fixed;
-
-width:8px;
-height:8px;
-
-top:-10px;
-
-animation:fall 3s linear forwards;
-
-}
-
-@keyframes fall{
-
-0%{transform:translateY(0)}
-100%{transform:translateY(100vh);opacity:0}
-
-}
-
-/* uang jatuh */
-
-.money{
-
-position:fixed;
-
-font-size:28px;
-
-top:-20px;
-
-animation:moneyFall 3s linear forwards;
-
-}
-
-@keyframes moneyFall{
-
-0%{transform:translateY(0)}
-100%{transform:translateY(100vh);opacity:0}
-
-}
-
-.extra1{}
-.extra2{}
-.extra3{}
-.extra4{}
-.extra5{}
-.extra6{}
-.extra7{}
-.extra8{}
-.extra9{}
-.extra10{}
-.extra11{}
-.extra12{}
-.extra13{}
-.extra14{}
-.extra15{}
-.extra16{}
-.extra17{}
-.extra18{}
-.extra19{}
-.extra20{}
-.extra21{}
-.extra22{}
-.extra23{}
-.extra24{}
-.extra25{}
-.extra26{}
-.extra27{}
-.extra28{}
-.extra29{}
-.extra30{}
-
 </style>
 
 </head>
@@ -234,149 +83,83 @@ animation:moneyFall 3s linear forwards;
 
 <h1>🎁 Spin Amplop THR</h1>
 
-<div class="container">
-
 <div class="pointer"></div>
 
-<div id="wheel">
+<canvas id="wheelCanvas" width="400" height="400"></canvas>
 
-<div class="label l1">100rb</div>
-<div class="label l2">50rb</div>
-<div class="label l3">20rb</div>
-<div class="label l4">10rb</div>
-<div class="label l5">5rb</div>
-<div class="label l6">Zonk</div>
-<div class="label l7">20rb</div>
-<div class="label l8">10rb</div>
-
-</div>
-
-<button onclick="spin()">SPIN</button>
+<button onclick="startSpin()">SPIN</button>
 
 <div id="result"></div>
 
-</div>
-
-<audio id="tick">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c6c3a8d2c.mp3">
-</audio>
-
 <script>
 
-const prizes=[
-"100rb",
-"50rb",
-"20rb",
-"10rb",
-"5rb",
-"Zonk",
-"20rb",
-"10rb"
-]
+let theWheel = new Winwheel({
 
-const allowed=[
-"20rb",
-"10rb",
-"5rb",
-"Zonk"
-]
+numSegments: 8,
 
-let rotation=0
+outerRadius: 180,
 
-function spin(){
+textFontSize: 18,
 
-const wheel=document.getElementById("wheel")
+segments: [
 
-const result=allowed[Math.floor(Math.random()*allowed.length)]
+{'fillStyle':'#ff9f00','text':'100rb'},
 
-let index=prizes.indexOf(result)
+{'fillStyle':'#ff2d2d','text':'50rb'},
 
-const slice=360/prizes.length
+{'fillStyle':'#ff9f00','text':'20rb'},
 
-let nearJackpot=Math.random()<0.5
+{'fillStyle':'#ff2d2d','text':'10rb'},
 
-if(nearJackpot){
-index=0
-}
+{'fillStyle':'#ff9f00','text':'5rb'},
 
-rotation += (360*5)+(index*slice)+(slice/2)
+{'fillStyle':'#ff2d2d','text':'Zonk'},
 
-wheel.style.transform="rotate("+rotation+"deg)"
+{'fillStyle':'#ff9f00','text':'20rb'},
 
-const tick=document.getElementById("tick")
+{'fillStyle':'#ff2d2d','text':'10rb'}
 
-let t=setInterval(()=>{
-tick.currentTime=0
-tick.play()
-},120)
+],
 
-setTimeout(()=>clearInterval(t),3900)
+animation:{
 
-setTimeout(()=>{
+type:'spinToStop',
 
-if(nearJackpot){
+duration:4,
 
-rotation+=22
+spins:6,
 
-wheel.style.transform="rotate("+rotation+"deg)"
+callbackFinished:showResult
 
 }
 
-document.getElementById("result").innerText="Kamu dapat: "+result
+});
 
-if(result!=="Zonk"){
+function startSpin(){
 
-confetti()
+let allowed = ["20rb","10rb","5rb","Zonk"]
 
-moneyRain()
+let result = allowed[Math.floor(Math.random()*allowed.length)]
 
-}
+let index = theWheel.segments.findIndex(s => s.text === result)
 
-},4000)
+let stopAngle = (index * 45) + 22
 
-}
+theWheel.stopAngle = stopAngle
 
-function confetti(){
-
-for(let i=0;i<40;i++){
-
-let c=document.createElement("div")
-
-c.className="confetti"
-
-c.style.left=Math.random()*100+"vw"
-
-c.style.background="hsl("+Math.random()*360+",100%,50%)"
-
-document.body.appendChild(c)
-
-setTimeout(()=>c.remove(),3000)
+theWheel.startAnimation()
 
 }
 
-}
+function showResult(indicatedSegment){
 
-function moneyRain(){
-
-for(let i=0;i<20;i++){
-
-let m=document.createElement("div")
-
-m.className="money"
-
-m.innerHTML="💸"
-
-m.style.left=Math.random()*100+"vw"
-
-document.body.appendChild(m)
-
-setTimeout(()=>m.remove(),3000)
-
-}
+document.getElementById("result").innerText =
+"Kamu dapat: " + indicatedSegment.text
 
 }
 
 </script>
 
 </body>
+
 </html>
