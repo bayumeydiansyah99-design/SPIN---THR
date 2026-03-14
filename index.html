@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Spin Amplop THR</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#0f172a;
+    color:white;
+}
+
+h1{
+    margin-top:20px;
+}
+
+#wheel{
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    border:10px solid white;
+    margin:40px auto;
+    position:relative;
+    overflow:hidden;
+    transform:rotate(0deg);
+    transition: transform 4s ease-out;
+}
+
+.segment{
+    position:absolute;
+    width:50%;
+    height:50%;
+    transform-origin:100% 100%;
+    text-align:right;
+    padding:10px;
+    font-weight:bold;
+}
+
+button{
+    padding:15px 40px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+#result{
+    margin-top:20px;
+    font-size:24px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎁 Spin Amplop THR</h1>
+
+<div id="wheel"></div>
+
+<button onclick="spin()">SPIN</button>
+
+<div id="result"></div>
+
+<script>
+
+const prizes = [
+"100rb",
+"50rb",
+"500rb",
+"10rb",
+"20rb",
+"2rb",
+"5rb",
+"Zonk",
+"20rb",
+"10rb"
+]
+
+const allowed = [
+"2rb",
+"5rb",
+"Zonk"
+]
+
+const wheel = document.getElementById("wheel")
+
+// buat segment
+prizes.forEach((p,i)=>{
+    const seg = document.createElement("div")
+    seg.className="segment"
+    seg.style.transform=`rotate(${i*45}deg) skewY(-45deg)`
+    seg.style.background=i%2?"#f59e0b":"#ef4444"
+    seg.innerHTML=p
+    wheel.appendChild(seg)
+})
+
+let deg = 0
+
+function spin(){
+
+    const result = allowed[Math.floor(Math.random()*allowed.length)]
+
+    const index = prizes.indexOf(result)
+
+    const rotateTo = (360*5) + (index*45)
+
+    deg += rotateTo
+
+    wheel.style.transform = `rotate(${deg}deg)`
+
+    setTimeout(()=>{
+        document.getElementById("result").innerText =
+        "Kamu dapat: " + result
+    },4000)
+}
+
+</script>
+
+</body>
+</html>
