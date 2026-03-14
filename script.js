@@ -1,4 +1,10 @@
-const prizes=[
+const canvas = document.getElementById("wheel")
+const ctx = canvas.getContext("2d")
+
+canvas.width = 400
+canvas.height = 400
+
+const prizes = [
 "100rb",
 "50rb",
 "20rb",
@@ -9,34 +15,72 @@ const prizes=[
 "10rb"
 ]
 
-const allowed=[
+const allowed = [
 "20rb",
 "10rb",
 "5rb",
 "Zonk"
 ]
 
-let rotation=0
+let rotation = 0
 
-document.getElementById("spinBtn").onclick=function(){
+function drawWheel(){
 
-const result=allowed[Math.floor(Math.random()*allowed.length)]
+const angle = (Math.PI * 2) / prizes.length
 
-const index=prizes.indexOf(result)
+for(let i=0;i<prizes.length;i++){
 
-const slice=360/prizes.length
+ctx.beginPath()
 
-const offset= slice/2
+ctx.moveTo(200,200)
 
-rotation += (360*5) + (index*slice) + offset
+ctx.arc(
+200,
+200,
+200,
+i*angle,
+(i+1)*angle
+)
 
-document.getElementById("wheel").style.transform=
-"rotate("+rotation+"deg)"
+ctx.fillStyle = i%2 ? "#ff3b3b" : "#ff8c00"
+
+ctx.fill()
+
+ctx.save()
+
+ctx.translate(200,200)
+
+ctx.rotate(i*angle + angle/2)
+
+ctx.fillStyle="white"
+
+ctx.font="bold 18px Arial"
+
+ctx.fillText(prizes[i],90,10)
+
+ctx.restore()
+
+}
+
+}
+
+drawWheel()
+
+document.getElementById("spinBtn").onclick=()=>{
+
+const result = allowed[Math.floor(Math.random()*allowed.length)]
+
+const index = prizes.indexOf(result)
+
+rotation += 360*5 + index*(360/prizes.length)
+
+canvas.style.transition="transform 4s"
+
+canvas.style.transform=`rotate(${rotation}deg)`
 
 setTimeout(()=>{
 
-document.getElementById("result").innerText=
-"Kamu dapat: "+result
+document.getElementById("result").innerText="Kamu dapat: "+result
 
 },4000)
 
