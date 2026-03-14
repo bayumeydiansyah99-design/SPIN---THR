@@ -3,65 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <title>Spin Amplop THR</title>
+
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
 body{
-    font-family: Arial, sans-serif;
-    text-align:center;
-    background:#0f172a;
-    color:white;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background: radial-gradient(circle at top,#0f172a,#020617);
+color:white;
+overflow:hidden;
 }
 
 h1{
-    margin-top:20px;
+font-size:28px;
+margin-bottom:20px;
+letter-spacing:1px;
 }
 
 #wheel{
-    width:300px;
-    height:300px;
-    border-radius:50%;
-    border:10px solid white;
-    margin:40px auto;
-    position:relative;
-    overflow:hidden;
-    transform:rotate(0deg);
-    transition: transform 4s ease-out;
+width:85vw;
+max-width:420px;
+height:85vw;
+max-height:420px;
+border-radius:50%;
+border:12px solid white;
+position:relative;
+overflow:hidden;
+transition:transform 4s cubic-bezier(.17,.67,.3,1);
+box-shadow:0 0 40px rgba(255,255,255,0.3);
 }
 
 .segment{
-    position:absolute;
-    width:50%;
-    height:50%;
-    transform-origin:100% 100%;
-    text-align:right;
-    padding:10px;
-    font-weight:bold;
+position:absolute;
+width:50%;
+height:50%;
+transform-origin:100% 100%;
+text-align:right;
+padding:12px;
+font-weight:bold;
+font-size:16px;
 }
 
 button{
-    padding:15px 40px;
-    font-size:18px;
-    border:none;
-    border-radius:10px;
-    background:#22c55e;
-    color:white;
-    cursor:pointer;
+
+margin-top:30px;
+padding:15px 45px;
+font-size:20px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#22c55e,#4ade80);
+color:white;
+cursor:pointer;
+box-shadow:0 0 20px #22c55e;
+transition:0.2s;
 }
 
-button:hover{
-    background:#16a34a;
+button:active{
+transform:scale(0.95);
 }
 
 #result{
-    margin-top:20px;
-    font-size:24px;
-    font-weight:bold;
+margin-top:25px;
+font-size:24px;
+font-weight:bold;
 }
+
+.pointer{
+
+position:absolute;
+top:calc(50% - 230px);
+width:0;
+height:0;
+border-left:18px solid transparent;
+border-right:18px solid transparent;
+border-bottom:30px solid white;
+
+}
+
 </style>
 </head>
 
 <body>
 
 <h1>🎁 Spin Amplop THR</h1>
+
+<div class="pointer"></div>
 
 <div id="wheel"></div>
 
@@ -71,55 +107,53 @@ button:hover{
 
 <script>
 
-const prizes = [
+const prizes=[
 "100rb",
 "50rb",
-"500rb",
-"10rb",
 "20rb",
-"2rb",
+"10rb",
 "5rb",
 "Zonk",
 "20rb",
 "10rb"
 ]
 
-const allowed = [
-"2rb",
+const allowed=[
+"20rb",
+"10rb",
 "5rb",
 "Zonk"
 ]
 
-const wheel = document.getElementById("wheel")
+const wheel=document.getElementById("wheel")
 
-// buat segment
 prizes.forEach((p,i)=>{
-    const seg = document.createElement("div")
-    seg.className="segment"
-    seg.style.transform=`rotate(${i*45}deg) skewY(-45deg)`
-    seg.style.background=i%2?"#f59e0b":"#ef4444"
-    seg.innerHTML=p
-    wheel.appendChild(seg)
+const seg=document.createElement("div")
+seg.className="segment"
+seg.style.transform=`rotate(${i*45}deg) skewY(-45deg)`
+seg.style.background=i%2?"#f97316":"#ef4444"
+seg.innerHTML=p
+wheel.appendChild(seg)
 })
 
-let deg = 0
+let deg=0
 
 function spin(){
 
-    const result = allowed[Math.floor(Math.random()*allowed.length)]
+const result=allowed[Math.floor(Math.random()*allowed.length)]
 
-    const index = prizes.indexOf(result)
+const index=prizes.indexOf(result)
 
-    const rotateTo = (360*5) + (index*45)
+const rotateTo=(360*6)+(index*45)
 
-    deg += rotateTo
+deg+=rotateTo
 
-    wheel.style.transform = `rotate(${deg}deg)`
+wheel.style.transform=`rotate(${deg}deg)`
 
-    setTimeout(()=>{
-        document.getElementById("result").innerText =
-        "Kamu dapat: " + result
-    },4000)
+setTimeout(()=>{
+document.getElementById("result").innerText="Kamu dapat: "+result
+},4000)
+
 }
 
 </script>
