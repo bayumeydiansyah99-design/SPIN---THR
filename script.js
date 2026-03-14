@@ -4,10 +4,10 @@ const takbir = document.getElementById("takbir");
 const ctx = canvas.getContext("2d");
 
 const segments = [
-"100rb","2rb","5rb","50rb",
-"100rb","500rb","10rb","20rb",
-"100rb","2rb","5rb","50rb",
-"100rb","500rb","10rb","20rb"
+"5rb","2rb","5rb","50rb",
+"5rb","500rb","10rb","20rb",
+"10rb","5rb","5rb","50rb",
+"10rb","100rb","10rb","20rb"
 ];
 
 const colors = [
