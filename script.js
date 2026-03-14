@@ -3,11 +3,13 @@ const ctx = canvas.getContext("2d");
 
 const segments = [
 "100rb",
-"500rb",
+"2rb",
+"5rb",
+"50rb",
 "100rb",
 "500rb",
-"100rb",
-"500rb"
+"10rb",
+"20rb"
 ];
 
 const colors = [
@@ -65,24 +67,18 @@ setTimeout(resultSpin,4000);
 
 function resultSpin(){
 
-const hadiah = Math.random();
+// hanya pilih hadiah kecil
+const hadiahAsli = Math.random();
 
 let result;
-let asli;
 
-if(hadiah < 0.7){
-
-result = "100rb";
-asli = "Rp2.000";
-
+if(hadiahAsli < 0.7){
+result = "Rp2.000";
 }else{
-
-result = "500rb";
-asli = "Rp5.000";
-
+result = "Rp5.000";
 }
 
 document.getElementById("result").innerHTML =
-"🎉 Kamu dapat "+result+"<br>THR asli: "+asli;
+"🎉 Kamu dapat THR "+result;
 
 }
