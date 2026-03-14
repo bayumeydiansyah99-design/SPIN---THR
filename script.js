@@ -1,13 +1,11 @@
 const canvas = document.getElementById("wheel");
 const tick = document.getElementById("tick");
+const takbir = document.getElementById("takbir");
 const ctx = canvas.getContext("2d");
-
-/* SEGMENT LEBIH BANYAK */
 
 const segments = [
 "100rb","2rb","5rb","50rb",
 "100rb","500rb","10rb","20rb",
-
 "100rb","2rb","5rb","50rb",
 "100rb","500rb","10rb","20rb"
 ];
@@ -15,15 +13,12 @@ const segments = [
 const colors = [
 "#ff5252","#ff9800","#4caf50","#2196f3",
 "#9c27b0","#ffc107","#00bcd4","#8bc34a",
-
 "#ff7043","#66bb6a","#42a5f5","#ab47bc",
 "#ffa726","#26c6da","#d4e157","#ef5350"
 ];
 
 let currentIndex = 0;
 let spinning = false;
-
-/* GAMBAR RODA */
 
 function drawWheel(highlight=-1){
 
@@ -34,7 +29,6 @@ ctx.clearRect(0,0,300,300);
 for(let i=0;i<segments.length;i++){
 
 ctx.beginPath();
-
 ctx.fillStyle = i===highlight ? "#ffffff" : colors[i];
 
 ctx.moveTo(150,150);
@@ -70,7 +64,7 @@ spinning=true;
 let speed=80;
 let totalSpin=0;
 
-/* TARGET HANYA HADIAH KECIL */
+/* hanya berhenti di hadiah kecil */
 
 const targetList = [1,2,9,10];
 const target = targetList[Math.floor(Math.random()*targetList.length)];
@@ -119,7 +113,11 @@ hadiah="Rp2.000";
 hadiah="Rp5.000";
 }
 
-document.getElementById("result").innerHTML=
+document.getElementById("result").innerHTML =
 "🎉 Kamu dapat THR "+hadiah;
+
+/* suara takbir */
+takbir.currentTime = 0;
+takbir.play();
 
 }
