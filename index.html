@@ -6,172 +6,158 @@
 <title>Spin Amplop THR</title>
 
 <style>
+:root{
+  --size: 86vw;
+  --max: 380px;
+  --red: #ff2d2d;
+  --orange: #ff9f00;
+  --border: #111;
+  --accent: #22c55e;
+}
 
+*{box-sizing:border-box}
 body{
-margin:0;
-font-family:Arial;
-background:white;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-height:100vh;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:#111;
 }
 
 h1{
-margin-bottom:20px;
+  margin:8px 0 18px;
+  font-weight:800;
+  letter-spacing:.5px;
 }
 
 .container{
-position:relative;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
+/* ===== Wheel ===== */
 #wheel{
-
-width:340px;
-height:340px;
-
-border-radius:50%;
-
-background:
-conic-gradient(
-#ff3b3b 0deg 45deg,
-#ff9f00 45deg 90deg,
-#ff3b3b 90deg 135deg,
-#ff9f00 135deg 180deg,
-#ff3b3b 180deg 225deg,
-#ff9f00 225deg 270deg,
-#ff3b3b 270deg 315deg,
-#ff9f00 315deg 360deg
-);
-
-border:10px solid black;
-
-transition:transform 4s cubic-bezier(.17,.67,.3,1);
-
-transform-style:preserve-3d;
-
-box-shadow:
-0 15px 30px rgba(0,0,0,0.2),
-inset 0 0 20px rgba(0,0,0,0.25);
-
+  width:var(--size);
+  height:var(--size);
+  max-width:var(--max);
+  max-height:var(--max);
+  border-radius:50%;
+  border:10px solid var(--border);
+  background:
+  conic-gradient(
+    var(--orange) 0deg 45deg,
+    var(--red)    45deg 90deg,
+    var(--orange) 90deg 135deg,
+    var(--red)    135deg 180deg,
+    var(--orange) 180deg 225deg,
+    var(--red)    225deg 270deg,
+    var(--orange) 270deg 315deg,
+    var(--red)    315deg 360deg
+  );
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 4s cubic-bezier(.17,.67,.3,1);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.15),
+    inset 0 0 25px rgba(0,0,0,.25);
+  overflow:hidden;
 }
 
-.pointer{
-
-position:absolute;
-
-top:-25px;
-left:50%;
-
-transform:translateX(-50%);
-
-width:0;
-height:0;
-
-border-left:22px solid transparent;
-border-right:22px solid transparent;
-
-border-bottom:40px solid black;
-
-z-index:10;
-
-}
-
-.labels{
-
-position:absolute;
-width:340px;
-height:340px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-pointer-events:none;
-
-}
-
+/* labels */
 .label{
-position:absolute;
-font-weight:bold;
-font-size:18px;
-color:white;
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform-origin:center;
+  color:#fff;
+  font-weight:800;
+  font-size:18px;
+  text-shadow:0 2px 2px rgba(0,0,0,.35);
+  user-select:none;
+}
+.l1{transform:rotate(0deg) translate(0,-38%) rotate(0deg);}
+.l2{transform:rotate(45deg) translate(0,-38%) rotate(-45deg);}
+.l3{transform:rotate(90deg) translate(0,-38%) rotate(-90deg);}
+.l4{transform:rotate(135deg) translate(0,-38%) rotate(-135deg);}
+.l5{transform:rotate(180deg) translate(0,-38%) rotate(-180deg);}
+.l6{transform:rotate(225deg) translate(0,-38%) rotate(-225deg);}
+.l7{transform:rotate(270deg) translate(0,-38%) rotate(-270deg);}
+.l8{transform:rotate(315deg) translate(0,-38%) rotate(-315deg);}
+
+/* ===== Pointer (panah ke bawah) ===== */
+.pointer{
+  position:absolute;
+  top:-34px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;height:0;
+  border-left:24px solid transparent;
+  border-right:24px solid transparent;
+  border-bottom:42px solid #000; /* panah mengarah ke bawah */
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));
+  z-index:10;
 }
 
+/* ===== Button ===== */
 button{
-
-margin-top:30px;
-
-padding:15px 45px;
-
-font-size:20px;
-
-background:#22c55e;
-
-color:white;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
+  margin-top:22px;
+  padding:14px 44px;
+  font-size:20px;
+  font-weight:700;
+  color:#fff;
+  background:var(--accent);
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(0,0,0,.15);
+  transition:transform .08s ease, box-shadow .15s ease;
+}
+button:active{
+  transform:translateY(2px) scale(.98);
+  box-shadow:0 4px 10px rgba(0,0,0,.2);
 }
 
 #result{
-
-margin-top:20px;
-
-font-size:24px;
-
-font-weight:bold;
-
+  margin-top:16px;
+  font-size:26px;
+  font-weight:800;
 }
 
-/* confetti */
-
+/* ===== Effects ===== */
 .confetti{
-
-position:fixed;
-
-width:8px;
-height:8px;
-
-top:-10px;
-
-animation:confettiFall 3s linear forwards;
-
+  position:fixed;
+  width:8px;height:8px;
+  top:-12px;
+  animation:fall 3s linear forwards;
 }
-
-@keyframes confettiFall{
-
-0%{transform:translateY(0);}
-100%{transform:translateY(100vh);opacity:0;}
-
+@keyframes fall{
+  0%{transform:translateY(0) rotate(0)}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0}
 }
-
-/* uang jatuh */
 
 .money{
-
-position:fixed;
-
-font-size:28px;
-
-top:-20px;
-
-animation:moneyFall 3s linear forwards;
-
+  position:fixed;
+  font-size:26px;
+  top:-20px;
+  animation:moneyFall 3s linear forwards;
 }
-
 @keyframes moneyFall{
-
-0%{transform:translateY(0);}
-100%{transform:translateY(100vh);opacity:0;}
-
+  0%{transform:translateY(0)}
+  100%{transform:translateY(100vh);opacity:0}
 }
 
+/* subtle glow while spinning */
+.spinning{
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.18),
+    inset 0 0 35px rgba(0,0,0,.35);
+}
 </style>
 </head>
 
@@ -180,149 +166,97 @@ animation:moneyFall 3s linear forwards;
 <h1>🎁 Spin Amplop THR</h1>
 
 <div class="container">
+  <div class="pointer"></div>
 
-<div class="pointer"></div>
+  <div id="wheel">
+    <div class="label l1">100rb</div>
+    <div class="label l2">50rb</div>
+    <div class="label l3">20rb</div>
+    <div class="label l4">10rb</div>
+    <div class="label l5">5rb</div>
+    <div class="label l6">Zonk</div>
+    <div class="label l7">20rb</div>
+    <div class="label l8">10rb</div>
+  </div>
 
-<div id="wheel"></div>
-
-<div class="labels">
-
-<div class="label" style="top:15px">100rb</div>
-<div class="label" style="top:80px; right:20px">50rb</div>
-<div class="label" style="right:20px; bottom:80px">20rb</div>
-<div class="label" style="bottom:15px">10rb</div>
-<div class="label" style="left:20px; bottom:80px">5rb</div>
-<div class="label" style="left:20px; top:80px">Zonk</div>
-
+  <button id="spinBtn">SPIN</button>
+  <div id="result"></div>
 </div>
 
-</div>
-
-<button onclick="spin()">SPIN</button>
-
-<div id="result"></div>
-
-<audio id="tickSound">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c6c3a8d2c.mp3">
+<audio id="tick">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c6c3a8d2c.mp3">
 </audio>
 
 <script>
+const prizes=["100rb","50rb","20rb","10rb","5rb","Zonk","20rb","10rb"];
+const allowed=["20rb","10rb","5rb","Zonk"];
 
-const prizes=[
-"100rb",
-"50rb",
-"20rb",
-"10rb",
-"5rb",
-"Zonk",
-"20rb",
-"10rb"
-]
+let rotation=0;
+const wheel=document.getElementById("wheel");
+const resultEl=document.getElementById("result");
+const tick=document.getElementById("tick");
 
-const allowed=[
-"20rb",
-"10rb",
-"5rb",
-"Zonk"
-]
-
-let rotation=0
+document.getElementById("spinBtn").onclick=spin;
 
 function spin(){
+  wheel.classList.add("spinning");
 
-const wheel=document.getElementById("wheel")
-const result=allowed[Math.floor(Math.random()*allowed.length)]
+  const slice=360/prizes.length;
+  const result=allowed[Math.floor(Math.random()*allowed.length)];
+  let index=prizes.indexOf(result);
 
-let index=prizes.indexOf(result)
+  /* efek hampir dapat 100rb */
+  const nearJackpot=Math.random()<0.55;
+  if(nearJackpot){ index=0; }
 
-const slice=360/prizes.length
+  rotation+=(360*6)+(index*slice)+(slice/2);
+  wheel.style.transform="rotate("+rotation+"deg)";
 
-/* efek hampir dapat 100rb */
+  /* suara klik saat lewat slice */
+  let t=setInterval(()=>{
+    try{ tick.currentTime=0; tick.play(); }catch(e){}
+  },120);
 
-let nearJackpot=Math.random()<0.6
+  setTimeout(()=>clearInterval(t),3900);
 
-if(nearJackpot){
-index=0
-}
+  setTimeout(()=>{
+    if(nearJackpot){
+      rotation+=22;
+      wheel.style.transform="rotate("+rotation+"deg)";
+    }
 
-rotation += (360*5)+(index*slice)+(slice/2)
+    resultEl.innerText="Kamu dapat: "+result;
 
-wheel.style.transform="rotate("+rotation+"deg)"
+    if(result!=="Zonk"){
+      confetti();
+      moneyRain();
+    }
 
-/* suara klik */
-
-const tick=document.getElementById("tickSound")
-
-let tickInterval=setInterval(()=>{
-tick.currentTime=0
-tick.play()
-},120)
-
-setTimeout(()=>{
-clearInterval(tickInterval)
-},4000)
-
-setTimeout(()=>{
-
-if(nearJackpot){
-
-rotation+=25
-wheel.style.transform="rotate("+rotation+"deg)"
-
-}
-
-document.getElementById("result").innerText=
-"Kamu dapat: "+result
-
-if(result!=="Zonk"){
-confetti()
-moneyRain()
-}
-
-},4000)
-
+    wheel.classList.remove("spinning");
+  },4000);
 }
 
 function confetti(){
-
-for(let i=0;i<40;i++){
-
-let c=document.createElement("div")
-
-c.className="confetti"
-
-c.style.left=Math.random()*100+"vw"
-
-c.style.background="hsl("+Math.random()*360+",100%,50%)"
-
-document.body.appendChild(c)
-
-setTimeout(()=>c.remove(),3000)
-
-}
-
+  for(let i=0;i<50;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background="hsl("+Math.random()*360+",100%,50%)";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
 }
 
 function moneyRain(){
-
-for(let i=0;i<20;i++){
-
-let m=document.createElement("div")
-
-m.className="money"
-
-m.innerHTML="💸"
-
-m.style.left=Math.random()*100+"vw"
-
-document.body.appendChild(m)
-
-setTimeout(()=>m.remove(),3000)
-
+  for(let i=0;i<24;i++){
+    const m=document.createElement("div");
+    m.className="money";
+    m.innerHTML="💸";
+    m.style.left=Math.random()*100+"vw";
+    document.body.appendChild(m);
+    setTimeout(()=>m.remove(),3000);
+  }
 }
-
-}
-
 </script>
 
 </body>
