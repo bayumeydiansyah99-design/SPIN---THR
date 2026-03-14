@@ -17,81 +17,98 @@ const colors = [
 "#ffa726","#26c6da","#d4e157","#ef5350"
 ];
 
-let currentIndex = 0;
+let rotation = 0;
 let spinning = false;
-
-/* ================= DRAW WHEEL ================= */
-
-function drawWheel(highlight=-1){
 
 const arc = Math.PI*2/segments.length;
 
+
+/* ================= DRAW WHEEL ================= */
+
+function drawWheel(){
+
 ctx.clearRect(0,0,300,300);
+
+ctx.save();
+ctx.translate(150,150);
+ctx.rotate(rotation);
 
 for(let i=0;i<segments.length;i++){
 
 ctx.beginPath();
 
-ctx.fillStyle = i===highlight ? "#ffffff" : colors[i];
+ctx.fillStyle = colors[i];
 
-ctx.moveTo(150,150);
-ctx.arc(150,150,150,arc*i,arc*(i+1));
+ctx.moveTo(0,0);
+ctx.arc(0,0,150,arc*i,arc*(i+1));
 ctx.fill();
 
 ctx.save();
 
-ctx.translate(150,150);
 ctx.rotate(arc*i + arc/2);
 
-ctx.fillStyle = i===highlight ? "black" : "white";
+ctx.fillStyle="white";
 ctx.font="bold 16px sans-serif";
+ctx.textAlign="right";
 
-ctx.fillText(segments[i],60,10);
+ctx.fillText(segments[i],120,5);
 
 ctx.restore();
 
 }
 
+ctx.restore();
+
 }
 
 drawWheel();
 
-/* ================= SPIN FUNCTION ================= */
+
+/* ================= SPIN ================= */
 
 function startSpin(){
 
 if(spinning) return;
 
-spinning=true;
-
-let speed=80;
-let totalSpin=0;
+spinning = true;
 
 /* hanya hadiah kecil */
 
 const targetList = [1,2,9,10];
 const target = targetList[Math.floor(Math.random()*targetList.length)];
 
-const interval=setInterval(()=>{
+/* hitung sudut target */
 
-drawWheel(currentIndex);
+const targetAngle =
+(2*Math.PI) - (target*arc) - arc/2;
+
+const extraSpin = 6 * 2 * Math.PI;
+
+const finalRotation = rotation + extraSpin + targetAngle;
+
+const duration = 4000;
+const start = performance.now();
+
+function animate(time){
+
+const progress = (time-start)/duration;
+
+if(progress < 1){
+
+rotation = rotation + (finalRotation-rotation)*0.1;
+
+drawWheel();
 
 tick.currentTime = 0;
 tick.play();
 
-currentIndex++;
+requestAnimationFrame(animate);
 
-if(currentIndex>=segments.length){
-currentIndex=0;
-}
+}else{
 
-totalSpin++;
+rotation = finalRotation;
 
-if(totalSpin>50 && currentIndex===target){
-
-clearInterval(interval);
-
-drawWheel(target);
+drawWheel();
 
 showResult(target);
 
@@ -99,17 +116,12 @@ spinning=false;
 
 }
 
-},speed);
+}
+
+requestAnimationFrame(animate);
 
 }
 
-/* ================= BUTTON SPIN ================= */
-
-const spinBtn = document.getElementById("spin");
-
-if(spinBtn){
-spinBtn.onclick = startSpin;
-}
 
 /* ================= RESULT ================= */
 
@@ -136,16 +148,18 @@ takbir.play();
 
 }
 
+
 /* ================= CLOSE POPUP ================= */
 
 function closePopup(){
 document.getElementById("popup").style.display="none";
 }
 
+
 /* ================= SWIPE SPIN ================= */
 
-let startX = 0;
-let startY = 0;
+let startX=0;
+let startY=0;
 
 canvas.addEventListener("touchstart",(e)=>{
 
@@ -161,12 +175,10 @@ if(spinning) return;
 const moveX = e.touches[0].clientX;
 const moveY = e.touches[0].clientY;
 
-const diffX = Math.abs(moveX - startX);
-const diffY = Math.abs(moveY - startY);
+const diffX = Math.abs(moveX-startX);
+const diffY = Math.abs(moveY-startY);
 
-/* geser sedikit saja langsung spin */
-
-if(diffX > 30 || diffY > 30){
+if(diffX>30 || diffY>30){
 
 startSpin();
 
