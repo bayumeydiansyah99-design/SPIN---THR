@@ -1,165 +1,30 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Spin Amplop THR</title>
+<title>Spin THR Anak</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Winwheel.js/2.8.0/Winwheel.min.js"></script>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-background:white;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-height:100vh;
-}
-
-h1{
-margin-bottom:20px;
-}
-
-canvas{
-max-width:400px;
-width:90vw;
-}
-
-.pointer{
-
-width:0;
-height:0;
-
-border-left:25px solid transparent;
-border-right:25px solid transparent;
-
-border-bottom:40px solid black;
-
-margin-bottom:-10px;
-
-}
-
-button{
-
-margin-top:20px;
-
-padding:15px 45px;
-
-font-size:20px;
-
-background:#22c55e;
-
-color:white;
-
-border:none;
-
-border-radius:10px;
-
-cursor:pointer;
-
-}
-
-#result{
-
-margin-top:20px;
-
-font-size:24px;
-
-font-weight:bold;
-
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
-
 <body>
 
-<h1>🎁 Spin Amplop THR</h1>
+<h1>🎁 Spin THR Lebaran 🎁</h1>
+<p>Putar roda untuk mendapatkan THR</p>
 
-<div class="pointer"></div>
+<div class="wheel-container">
 
-<canvas id="wheelCanvas" width="400" height="400"></canvas>
+<canvas id="wheel" width="300" height="300"></canvas>
 
-<button onclick="startSpin()">SPIN</button>
+<button id="spin">PUTAR</button>
 
-<div id="result"></div>
+</div>
 
-<script>
+<h2 id="result"></h2>
 
-let theWheel = new Winwheel({
-
-numSegments: 8,
-
-outerRadius: 180,
-
-textFontSize: 18,
-
-segments: [
-
-{'fillStyle':'#ff9f00','text':'100rb'},
-
-{'fillStyle':'#ff2d2d','text':'50rb'},
-
-{'fillStyle':'#ff9f00','text':'20rb'},
-
-{'fillStyle':'#ff2d2d','text':'10rb'},
-
-{'fillStyle':'#ff9f00','text':'5rb'},
-
-{'fillStyle':'#ff2d2d','text':'Zonk'},
-
-{'fillStyle':'#ff9f00','text':'20rb'},
-
-{'fillStyle':'#ff2d2d','text':'10rb'}
-
-],
-
-animation:{
-
-type:'spinToStop',
-
-duration:4,
-
-spins:6,
-
-callbackFinished:showResult
-
-}
-
-});
-
-function startSpin(){
-
-let allowed = ["20rb","10rb","5rb","Zonk"]
-
-let result = allowed[Math.floor(Math.random()*allowed.length)]
-
-let index = theWheel.segments.findIndex(s => s.text === result)
-
-let stopAngle = (index * 45) + 22
-
-theWheel.stopAngle = stopAngle
-
-theWheel.startAnimation()
-
-}
-
-function showResult(indicatedSegment){
-
-document.getElementById("result").innerText =
-"Kamu dapat: " + indicatedSegment.text
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
-
 </html>
