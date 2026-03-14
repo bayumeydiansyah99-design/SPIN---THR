@@ -1,43 +1,80 @@
 body{
 font-family:sans-serif;
 text-align:center;
-background:#0f6b44;
+background:linear-gradient(180deg,#0f6b44,#0a4d31);
 color:white;
+margin:0;
 }
 
-h1{
-margin-top:30px;
+/* HEADER */
+
+.header{
+padding:40px 20px 10px;
 }
+
+.header h1{
+font-size:40px;
+color:#ffd54f;
+}
+
+.header p{
+opacity:0.9;
+font-size:18px;
+}
+
+/* RODA */
 
 .wheel-container{
-margin-top:40px;
+margin-top:30px;
 display:flex;
 flex-direction:column;
 align-items:center;
 }
 
+/* CANVAS */
+
 canvas{
 background:white;
 border-radius:50%;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+border:6px solid #ffd54f;
 }
 
+/* BUTTON */
+
 button{
-margin-top:20px;
-padding:15px 30px;
-font-size:20px;
+margin-top:25px;
+padding:16px 40px;
+font-size:22px;
 border:none;
-border-radius:10px;
-background:#ffc107;
+border-radius:50px;
+background:linear-gradient(45deg,#ffd54f,#ff9800);
 cursor:pointer;
 font-weight:bold;
+color:#3e2723;
+box-shadow:0 5px 20px rgba(0,0,0,0.4);
 }
 
 button:hover{
-background:#ff9800;
+transform:scale(1.05);
+}
+
+/* RESULT */
+
+.result-box{
+margin-top:40px;
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:20px;
+width:80%;
+max-width:400px;
+margin-left:auto;
+margin-right:auto;
+backdrop-filter:blur(6px);
 }
 
 #result{
-margin-top:30px;
-font-size:28px;
+font-size:30px;
+color:#fff176;
 font-weight:bold;
 }
