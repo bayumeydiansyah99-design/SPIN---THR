@@ -20,6 +20,8 @@ const colors = [
 let currentIndex = 0;
 let spinning = false;
 
+/* ================= DRAW WHEEL ================= */
+
 function drawWheel(highlight=-1){
 
 const arc = Math.PI*2/segments.length;
@@ -54,9 +56,9 @@ ctx.restore();
 
 drawWheel();
 
-/* SPIN */
+/* ================= SPIN FUNCTION ================= */
 
-document.getElementById("spin").onclick=function(){
+function startSpin(){
 
 if(spinning) return;
 
@@ -64,6 +66,8 @@ spinning=true;
 
 let speed=80;
 let totalSpin=0;
+
+/* hanya hadiah kecil */
 
 const targetList = [1,2,9,10];
 const target = targetList[Math.floor(Math.random()*targetList.length)];
@@ -99,7 +103,15 @@ spinning=false;
 
 }
 
-/* HASIL */
+/* ================= BUTTON SPIN ================= */
+
+const spinBtn = document.getElementById("spin");
+
+if(spinBtn){
+spinBtn.onclick = startSpin;
+}
+
+/* ================= RESULT ================= */
 
 function showResult(index){
 
@@ -124,12 +136,13 @@ takbir.play();
 
 }
 
-/* TUTUP POPUP */
+/* ================= CLOSE POPUP ================= */
 
 function closePopup(){
 document.getElementById("popup").style.display="none";
 }
-/* ===== SWIPE SPIN ===== */
+
+/* ================= SWIPE SPIN ================= */
 
 let startX = 0;
 let startY = 0;
@@ -151,7 +164,7 @@ const moveY = e.touches[0].clientY;
 const diffX = Math.abs(moveX - startX);
 const diffY = Math.abs(moveY - startY);
 
-/* jika geser cukup jauh */
+/* geser sedikit saja langsung spin */
 
 if(diffX > 30 || diffY > 30){
 
