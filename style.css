@@ -1,12 +1,32 @@
-/* BACKGROUND MASJID */
+/* BODY FULL SCREEN */
+
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+font-family:sans-serif;
+text-align:center;
+color:white;
+}
+
+/* BACKGROUND MASJID FULL SCREEN */
 
 .bg-masjid{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
 background:
 linear-gradient(rgba(10,60,40,0.85),rgba(10,60,40,0.85)),
 url("https://images.unsplash.com/photo-1584551246679-0daf3d275d0f");
+
 background-size:cover;
 background-position:center;
-background-attachment:fixed;
+background-repeat:no-repeat;
+
+z-index:-1;
 }
 
 /* HEADER */
