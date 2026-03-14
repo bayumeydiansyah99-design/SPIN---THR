@@ -141,3 +141,8 @@ transform:scale(1);
 opacity:1;
 }
 }
+.swipe-text{
+margin-top:20px;
+font-size:18px;
+opacity:0.9;
+}
